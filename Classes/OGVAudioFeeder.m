@@ -330,7 +330,11 @@ static void OGVAudioFeederPropListener(void *data, AudioQueueRef queue, AudioQue
             return;
         }
         assert(!isRunning);
-        assert(samplesQueued >= nBuffers * bufferSize);
+        //assert(samplesQueued >= nBuffers * bufferSize);
+        if (samplesQueued < nBuffers * bufferSize)
+        {
+            return;
+        }
 
         isStarting = YES;
         

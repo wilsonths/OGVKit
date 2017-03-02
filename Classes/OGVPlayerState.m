@@ -375,10 +375,16 @@
             } else {
                 // Wait for audio to run out, then close up shop!
                 float timeLeft;
-                if (audioFeeder && [audioFeeder isStarted]) {
-                    // @fixme if we haven't started and there's time left,
-                    // we should trigger actual playback and pad the buffer.
+                if (audioFeeder) {
                     timeLeft = [audioFeeder timeAwaitingPlayback];
+                    // Quick fix for short audio use case
+                    // if we haven't started and there's time left,
+                    // we should trigger actual playback and pad the buffer.
+                    if (![audioFeeder isStarted]) {
+                        OGVAudioBuffer *audioBuffer = [decoder audioBuffer];
+                        [audioFeeder bufferData:audioBuffer];
+                        [audioFeeder startAudio];
+                    }
                 } else {
                     timeLeft = 0;
                 }

@@ -15,6 +15,7 @@
  */
 -(id)initWithFormat:(OGVAudioFormat *)format;
 
+-(void)startAudio;
 
 /**
  * Queue up a chunk of audio for future output.
